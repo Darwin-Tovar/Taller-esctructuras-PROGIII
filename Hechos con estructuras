@@ -1,0 +1,11 @@
+padre(abraham[homero, herbert], 
+      clancy[marge,patty, selma], 
+      homero[bart, lisa, maggie]  
+      ).
+hombre(abraham, herbert, clancy, homero, bart ).
+madre(mona[homero],
+      jacqueline[ marge, patty, selma],
+      marge[ bart, lisa, maggie ],
+      selma, [ling]
+      ).
+mujer(mona, jacqueline, marge, patty, selma, lisa, maggie, ling).
