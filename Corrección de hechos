@@ -14,14 +14,19 @@ madreDe( Mama, Hijo ):- madre(Mama, Estructura), Estructura=..[_|Hijos], member(
 esHombre( Persona ):- hombre(Men), Men=..[_|Hombres], member( Persona, Hombres ).
 esMujer( Persona ):- mujer(Women), Women=..[_|Mujeres], member( Persona, Mujeres ).
 
-abuelo(Abuelo, Nieto) :- padre(Abuelo, hijos(Hijos)), member(Hijo, Hijos), padre(Hijo, hijos(Nietos)), member(Nieto, Nietos).
-abuela(Abuela, Nieto) :- madre(Abuela, hijos(Hijos)), member(Hijo, Hijos), madre(Hijo, hijos(Nietos)), member(Nieto, Nietos).
-
-hermano(Hermano1, Hermano2) :- padre(Papa, hijos(Hijos)), member(Hermano1, Hijos), member(Hermano2, Hijos), Hermano1 \= Hermano2.
-hermana(Hermana1, Hermana2) :- madre(Mama, hijos(Hijas)), member(Hermana1, Hijas), member(Hermana2, Hijas), Hermana1 \= Hermana2.
-
-tio(Tio, Sobrino) :- hermano(Tio, Padre), padre(Padre, hijos(Sobrinos)), member(Sobrino, Sobrinos).
-tia(Tia, Sobrino) :- hermana(Tia, Madre), madre(Madre, hijos(Sobrinos)), member(Sobrino, Sobrinos).
-
-primo(Primo1, Primo2) :- padre(Padre1, hijos(Hijos1)), member(Primo1, Hijos1), padre(Padre2, hijos(Hijos2)), member(Primo2, Hijos2), hermano(Padre1, Padre2).
-prima(Prima1, Prima2) :- madre(Madre1, hijos(Hijas1)), member(Prima1, Hijas1), madre(Madre2, hijos(Hijas2)), member(Prima2, Hijas2), hermana(Madre1, Madre2).
+abuelo(X, Y) :- padreDe( X, Z ), (padreDe(Z, Y); madreDe(Z, Y)).
+abuela(X, Y) :- madreDe(X, Z), (padreDe(Z, Y); madreDe(Z, Y)).
+hermano(X, Y) :- padreDe(P, X), padreDe(P, Y), madreDe(M, X), esHombre(X), madreDe(M, Y), X \= Y.
+hermana(X, Y) :- padreDe(P, X), padreDe(P, Y), madreDe(M, X), esMujer(X), madreDe(M, Y), X \= Y.
+hijo(X, Y) :- (padreDe(Y, X); madreDe(Y, X)), esHombre(X).
+hija(X, Y) :- (padreDe(Y, X); madreDe(Y, X)), esMujer(X).
+tio(X, Y) :- hermano(X, P), (padreDe(P, Y); madreDe(P, Y)), esHombre(X).
+tia(X, Y) :- hermana(X, P), (padreDe(P, Y); madreDe(P, Y)), esMujer(Y).
+nieto(X, Y) :- esHombre(X), abuelo(Y, X); abuela(Y, X).
+nieta(X, Y) :- esMujer(X), abuelo(Y, X); abuela(Y, X).
+primo(X, Y) :- esHombre(X), padreDe(P1, X), padreDe(P2, Y), hermano(P1, P2).
+primo(X, Y) :- esHombre(X), madreDe(M1, X), madreDe(M2, Y), hermana(M1, M2).
+prima(X, Y) :- esMujer(X), padreDe(P1, X), padreDe(P2, Y), hermano(P1, P2).
+prima(X, Y) :- esMujer(X), madreDe(M1, X), madreDe(M2, Y), hermana(M1, M2).
+esposo(X, Y) :- padreDe(X, Z), madreDe(Y, Z), esHombre(X), esMujer(Y).
+esposa(X, Y) :- madreDe(X, Z), padreDe(Y, Z), esMujer(X), esHombre(Y).
