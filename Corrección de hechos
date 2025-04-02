@@ -1,0 +1,15 @@
+padre(abraham, hijos(homero, herbert) ).
+padre(clancy, hijos(marge,patty, selma) ).
+padre(homero, hijos(bart, lisa, maggie) ).
+hombre( persona(abraham, herbert, clancy, homero, bart) ).
+
+madre(mona, hijos(homero) ).
+madre(jacqueline, hijos( marge, patty, selma) ).
+madre(marge, hijos( bart, lisa, maggie ) ).
+madre(selma, hijos(ling) ).
+mujer(persona(mona, jacqueline, marge, patty, selma, lisa, maggie, ling) ).
+
+padreDe( Papa, Hijo ):- padre(Papa,Estructura), Estructura=..[_|Hijos], member(Hijo , Hijos).
+madreDe( Mama, Hijo ):- madre(Mama, Estructura), Estructura=..[_|Hijos], member(Hijo , Hijos).
+esHombre( Persona ):- hombre(Men), Men=..[_|Hombres], member( Persona, Hombres ).
+esMujer( Persona ):- mujer(Women), Women=..[_|Mujeres], member( Persona, Mujeres ).
