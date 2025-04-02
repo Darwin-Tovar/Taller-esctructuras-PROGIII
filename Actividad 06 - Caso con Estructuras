@@ -1,0 +1,19 @@
+familia([
+padre(abraham, [homero, herbert]),
+padre(clancy, [marge, patty, selma]),
+padre(homero, [bart, lisa, maggie]),
+madre(mona, [homero]),
+madre(jacqueline, [marge, patty, selma]),
+madre(marge, [bart, lisa, maggie]),
+madre(selma, [ling]),
+hombre([abraham, herbert, clancy, homero, bart]),
+mujer([mona, jacqueline, marge, patty, selma, lisa, maggie, ling])
+]).
+
+miembro(X, [X|_]).
+miembro(X, [_|T]) :- miembro(X, T).
+
+padre(X, Y) :- familia(F), miembro(padre(X, Hijos), F), miembro(Y, Hijos).
+madre(X, Y) :- familia(F), miembro(madre(X, Hijos), F), miembro(Y, Hijos).
+hombre(X) :- familia(F), miembro(hombre(H), F), miembro(X, H).
+mujer(X) :- familia(F), miembro(mujer(M), F), miembro(X, M).
