@@ -13,3 +13,15 @@ padreDe( Papa, Hijo ):- padre(Papa,Estructura), Estructura=..[_|Hijos], member(H
 madreDe( Mama, Hijo ):- madre(Mama, Estructura), Estructura=..[_|Hijos], member(Hijo , Hijos).
 esHombre( Persona ):- hombre(Men), Men=..[_|Hombres], member( Persona, Hombres ).
 esMujer( Persona ):- mujer(Women), Women=..[_|Mujeres], member( Persona, Mujeres ).
+
+abuelo(Abuelo, Nieto) :- padre(Abuelo, hijos(Hijos)), member(Hijo, Hijos), padre(Hijo, hijos(Nietos)), member(Nieto, Nietos).
+abuela(Abuela, Nieto) :- madre(Abuela, hijos(Hijos)), member(Hijo, Hijos), madre(Hijo, hijos(Nietos)), member(Nieto, Nietos).
+
+hermano(Hermano1, Hermano2) :- padre(Papa, hijos(Hijos)), member(Hermano1, Hijos), member(Hermano2, Hijos), Hermano1 \= Hermano2.
+hermana(Hermana1, Hermana2) :- madre(Mama, hijos(Hijas)), member(Hermana1, Hijas), member(Hermana2, Hijas), Hermana1 \= Hermana2.
+
+tio(Tio, Sobrino) :- hermano(Tio, Padre), padre(Padre, hijos(Sobrinos)), member(Sobrino, Sobrinos).
+tia(Tia, Sobrino) :- hermana(Tia, Madre), madre(Madre, hijos(Sobrinos)), member(Sobrino, Sobrinos).
+
+primo(Primo1, Primo2) :- padre(Padre1, hijos(Hijos1)), member(Primo1, Hijos1), padre(Padre2, hijos(Hijos2)), member(Primo2, Hijos2), hermano(Padre1, Padre2).
+prima(Prima1, Prima2) :- madre(Madre1, hijos(Hijas1)), member(Prima1, Hijas1), madre(Madre2, hijos(Hijas2)), member(Prima2, Hijas2), hermana(Madre1, Madre2).
